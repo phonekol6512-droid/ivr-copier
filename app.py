@@ -13,7 +13,7 @@ def copy_module():
     pass_dst = request.values.get('pass_dst')
     ext_dst = request.values.get('ext_dst')
 
-    if not system_src: return ym_read("system_src", "t-אנא הקישו את מספר המערכת ממנה אתם מעוניינים להעתיק את השלוחה בסיום הקישו סולמית")
+    if not system_src: return ym_read("system_src", "t-אנא הקישו את מספר המערכת ממנה אתם מעוניינים להעתיק את השלוחה בסיום אנא הקישו סולמית")
     if not pass_src: return ym_read("pass_src", "t-אנא הקש את סיסמת המערכת בסיום הקש סולמית")
     if not ext_src: return ym_read("ext_src", "t-נא הקש את מספר השלוחה להעתקה, ובסיומה סולמית")
     if not system_dst: return ym_read("system_dst", "t-נא הקש את מספר מערכת היעד, ובסיומה סולמית")
