@@ -15,24 +15,22 @@ def copy_module():
     pass_dst = request.values.get('pass_dst')
     ext_dst = request.values.get('ext_dst')
 
-    # ניהול שלבי בקשת הנתונים (הפורמט המנצח שלך)
-    # הוספנו הנחיה במלל למאזין להקיש כוכבית בין השלוחות הפנימיות
+    # החזרת המלל המקורי והקצר שלך כדי למנוע השהיות וקריסות
     if not system_src: return ym_read("system_src", "t-אנא הקישו את מספר מערכת המקור ובסיומה סולמית")
     if not pass_src:   return ym_read("pass_src", "t-אנא הקישו את סיסמת מערכת המקור ובסיומה סולמית")
-    if not ext_src:    return ym_read("ext_src", "t-אנא הקישו את מספר השלוחה. לשלוחה פנימית הקישו כוכבית בין שלוחה לשלוחה, ובסיומה סולמית")
+    if not ext_src:    return ym_read("ext_src", "t-אנא הקישו את מספר השלוחה להעתקה ובסיומה סולמית")
     if not system_dst: return ym_read("system_dst", "t-אנא הקישו את מספר מערכת היעד ובסיומה סולמית")
     if not pass_dst:   return ym_read("pass_dst", "t-אנא הקישו את סיסמת מערכת היעד ובסיומה סולמית")
-    if not ext_dst:    return ym_read("ext_dst", "t-אנא הקישו את שלוחת היעד החדשה. לשלוחה פנימית הקישו כוכבית, ובסיומה סולמית")
+    if not ext_dst:    return ym_read("ext_dst", "t-אנא הקישו את שלוחת היעד החדשה ובסיומה סולמית")
 
     try:
         token_src = f"{system_src.strip()}:{pass_src.strip()}"
         token_dst = f"{system_dst.strip()}:{pass_dst.strip()}"
         
-        # ניקוי והחלפת כוכביות או מקפים ללוכסנים עבור שלוחות פנימיות
+        # תמיכה בשלוחות פנימיות: המאזין יכול להקיש כוכבית (למשל 1*5) והקוד מתרגם ללוכסן
         shluha_src = ext_src.replace('*', '/').replace('-', '/').strip('/')
         shluha_dst = ext_dst.replace('*', '/').replace('-', '/').strip('/')
         
-        # בניית הנתיב המדויק ל-API (למשל: ivr2:/1/5/2/ext.ini)
         path_src = f"ivr2:/{shluha_src}/ext.ini"
         path_dst = f"ivr2:/{shluha_dst}/ext.ini"
 
@@ -59,8 +57,8 @@ def copy_module():
         return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת עם השרתים.")
 
 def ym_read(var_name, text):
-    # הפורמט המנצח שלך! (הגדלנו ל-20 ספרות כדי לתמוך בשלוחות פנימיות ארוכות)
-    res = make_response(f"read={text}={var_name},4,20,1,Digits")
+    # החזרה לפורמט המנצח שלך במדויק (עד 12 ספרות כדי למנוע את הניתוק)!
+    res = make_response(f"read={text}={var_name},4,12,1,Digits")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
 
