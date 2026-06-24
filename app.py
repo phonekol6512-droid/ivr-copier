@@ -40,10 +40,9 @@ def copy_module():
         return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת.")
 
 def ym_read(var_name, text):
-    # התיקון המלא:
-    # digits=סוג, 1=מינימום (תומך בסיסמאות קצרות), 12=מקסימום ספרות
-    # 7=זמן המתנה, he=שפה, yes=אישור הקלטת המאזין (השמעת ההקשות), yes=מחכה לסולמית
-    res = make_response(f"read={text}={var_name},digits,1,12,7,he,yes,yes")
+    # המבנה הנקי שמונע את שגיאת האפס, תומך בסיסמה קצרה ומקריא לאישור:
+    # 1=מינימום, 12=מקסימום, 7=שניות המתנה, No=ללא השמעה מיוחדת, yes=חובה להקריא לאישור, no=הקשה ריקה אסורה
+    res = make_response(f"read={text}=f,{var_name},1,12,7,No,yes,no")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
 
