@@ -13,8 +13,8 @@ def copy_module():
     pass_dst = request.values.get('pass_dst')
     ext_dst = request.values.get('ext_dst')
 
-    if not system_src: return ym_read("system_src", "t-נא הקש את מספר מערכת המקור, ובסיומה סולמית")
-    if not pass_src: return ym_read("pass_src", "t-נא הקש את סיסמת מערכת המקור, ובסיומה סולמית")
+    if not system_src: return ym_read("system_src", "t-אנא הקישו את מספר המערכת ממנה אתם מעוניינים להעתיק את השלוחה בסיום הקישו סולמית")
+    if not pass_src: return ym_read("pass_src", "t-אנא הקש את סיסמת המערכת בסיום הקש סולמית")
     if not ext_src: return ym_read("ext_src", "t-נא הקש את מספר השלוחה להעתקה, ובסיומה סולמית")
     if not system_dst: return ym_read("system_dst", "t-נא הקש את מספר מערכת היעד, ובסיומה סולמית")
     if not pass_dst: return ym_read("pass_dst", "t-נא הקש את סיסמת מערכת היעד, ובסיומה סולמית")
@@ -40,10 +40,11 @@ def copy_module():
         return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת.")
 
 def ym_read(var_name, text):
-    # השינוי כאן: הגדרנו מינימום 1 ספרות, מקסימום 10 ספרות, ומחכים ללחיצה
-    res = make_response(f"read={text}=f,{var_name},1,10,1,No,yes,no")
+    # הגדרות מוגנות: מינימום ספרה 1, מקסימום 10 ספרות, סוג הקשה: ספרות (digits), המתנה של 7 שניות בין הספרות
+    res = make_response(f"read={text}={var_name},digits,1,10,7,yes")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
+
 
 
 def ym_say_and_hangup(text):
