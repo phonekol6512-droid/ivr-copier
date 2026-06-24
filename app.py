@@ -40,16 +40,13 @@ def copy_module():
         return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת.")
 
 def ym_read(var_name, text):
-    # הפורמט המדויק לפי מסמכי המפתחים של ימות המשיח:
-    # digits = סוג הקשה
-    # 1,12 = מינימום 1 (תומך בסיסמה קצרה), מקסימום 12
-    # 7 = שניות המתנה בין ההקשות
-    # he = שפת המערכת (חובה!)
-    # yes = להקריא למאזין את הספרות שהקיש לאישור
-    # yes = להמתין למקש סולמית לסיום
+    # הפורמט הרשמי ל-API דינמי:
+    # 1=מינימום (לסיסמה קצרה), 12=מקסימום, 7=שניות המתנה, digits=סוג הקשה
+    # yes=להקריא לאישור, yes=מחכה לסולמית
     res = make_response(f"read={text}={var_name},digits,1,12,7,he,yes,yes")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
+
 
 
 def ym_say_and_hangup(text):
