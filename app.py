@@ -40,7 +40,7 @@ def copy_module():
         return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת.")
 
 def ym_read(var_name, text):
-   res = make_response(f"read={text}={var_name},1,10,7,Digits,yes")
+    res = make_response(f"read={text}=f,{var_name},1,10,7,No,yes,no")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
 
@@ -48,4 +48,3 @@ def ym_say_and_hangup(text):
     res = make_response(f"id_list_message={text}")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
-
