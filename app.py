@@ -42,7 +42,7 @@ def copy_module():
 def ym_read(var_name, text):
     # הפורמט הרשמי והתקני של ימות המשיח:
     # 1=מינימום ספרות, 10=מקסימום ספרות, 7=שניות המתנה, Digits=סוג, yes=מחכה לסולמית
-    res = make_response(f"read={text}={var_name},12,7,Digits")
+    res = make_response(f"read={text}={var_name},4,12,4,Digits")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
 
