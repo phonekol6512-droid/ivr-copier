@@ -6,7 +6,7 @@ YEMOT_API_URL = "https://call2all.co.il"
 
 @app.route('/copy-module', methods=['GET', 'POST'])
 def copy_module():
-    # קבלת כל הנתונים שימות המשיח כבר אספה מהמאזין בבטחה
+    # קבלת המשתנים שהמערכת אספה ואישרה מראש
     system_src = request.values.get('system_src')
     pass_src = request.values.get('pass_src')
     ext_src = request.values.get('ext_src')
@@ -15,9 +15,9 @@ def copy_module():
     pass_dst = request.values.get('pass_dst')
     ext_dst = request.values.get('ext_dst')
 
-    # הגנה: אם אחד הנתונים חסר, המערכת לא תבצע העתקה שגויה
+    # הגנה מפני נתונים חסרים
     if not all([system_src, pass_src, ext_src, system_dst, pass_dst, ext_dst]):
-        return ym_say_and_hangup("t-שגיאה. לא התקבלו כל הנתונים הדרושים מהמערכת.")
+        return ym_say_and_hangup("t-שגיאה. לא התקבלו כל הנתונים הנדרשים.")
 
     try:
         path_src = f"/ivr/{ext_src.strip('/')}/"
@@ -27,7 +27,7 @@ def copy_module():
         src_response = requests.get(f"{YEMOT_API_URL}DownloadFile?token={system_src}:{pass_src}&path={path_src}ext.ini")
 
         if src_response.status_code != 200 or "הסיסמא שגויה" in src_response.text:
-            return ym_say_and_hangup("t-שגיאה. נתוני מערכת המקור שגויים או שהשלוחה לא קיימת.")
+            return ym_say_and_hangup("t-שגיאה. נתוני מערכת המקור שגויים או שהשלוחה אינה קיימת.")
 
         # 2. העלאת קובץ ה-ext.ini למערכת היעד
         dst_response = requests.post(
@@ -36,11 +36,11 @@ def copy_module():
         )
 
         if dst_response.status_code == 200 and '"responseStatus":"OK"' in dst_response.text:
-            return ym_say_and_hangup("t-ההעתקה בוצעה בהצלחה. השלוחה הועתקה.")
+            return ym_say_and_hangup("t-ההעתקה בוצעה בהצלחה.")
         return ym_say_and_hangup("t-שגיאה בהעלאת הנתונים למערכת היעד.")
         
-    except Exception as e:
-        return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת עם שרתי ה-API.")
+    except:
+        return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת עם שרתי המערכת.")
 
 def ym_say_and_hangup(text):
     res = make_response(f"id_list_message={text}")
@@ -48,4 +48,5 @@ def ym_say_and_hangup(text):
     return res
 
 __all__ = ['app']
+
 
