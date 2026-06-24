@@ -69,7 +69,7 @@ def copy_module():
 # פונקציות עזר ליצירת תגובות בפורמט של ימות המשיח
 def ym_read(var_name, text_to_say):
     """מנחה את המערכת להקריא טקסט ולשמור את ההקשה של המשתמש למשתנה"""
-    res = make_response(f"read={text}={var_name},digits,1,10,7,he,no")
+    res = make_response(f"read={text}={var_name},digits,1,10,7,he,yes")
     response = make_response(response_str)
     response.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return response
