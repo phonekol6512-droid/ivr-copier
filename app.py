@@ -3,7 +3,7 @@ from flask import Flask, request, make_response
 
 app = Flask(__name__)
 
-YEMOT_API_URL = "https://call2all.co.il"
+YEMOT_API_URL = "https://www.call2all.co.il/ym/api/"
 
 @app.route('/copy-module', methods=['GET', 'POST'])
 def copy_module():
@@ -15,7 +15,7 @@ def copy_module():
     pass_dst = request.values.get('pass_dst')
     ext_dst = request.values.get('ext_dst')
 
-    # החזרת המלל המקורי והקצר שלך כדי למנוע השהיות וקריסות
+    # שימוש בפורמט המנצח והמדויק שאתה פיצחת!
     if not system_src: return ym_read("system_src", "t-אנא הקישו את מספר מערכת המקור ובסיומה סולמית")
     if not pass_src:   return ym_read("pass_src", "t-אנא הקישו את סיסמת מערכת המקור ובסיומה סולמית")
     if not ext_src:    return ym_read("ext_src", "t-אנא הקישו את מספר השלוחה להעתקה ובסיומה סולמית")
@@ -27,12 +27,13 @@ def copy_module():
         token_src = f"{system_src.strip()}:{pass_src.strip()}"
         token_dst = f"{system_dst.strip()}:{pass_dst.strip()}"
         
-        # תמיכה בשלוחות פנימיות: המאזין יכול להקיש כוכבית (למשל 1*5) והקוד מתרגם ללוכסן
-        shluha_src = ext_src.replace('*', '/').replace('-', '/').strip('/')
-        shluha_dst = ext_dst.replace('*', '/').replace('-', '/').strip('/')
+        # ניקוי המחרוזת והחלפת כוכביות ללוכסנים בצורה תקינה ומאובטחת
+        clean_src = ext_src.strip().replace('*', '/').replace('-', '/').strip('/')
+        clean_dst = ext_dst.strip().replace('*', '/').replace('-', '/').strip('/')
         
-        path_src = f"ivr2:/{shluha_src}/ext.ini"
-        path_dst = f"ivr2:/{shluha_dst}/ext.ini"
+        # בניית הנתיב המדויק לפי הספר של ימות המשיח
+        path_src = f"ivr2:/{clean_src}/ext.ini"
+        path_dst = f"ivr2:/{clean_dst}/ext.ini"
 
         # 1. הורדת הקובץ ממערכת המקור
         download_url = f"{YEMOT_API_URL}DownloadFile"
@@ -57,7 +58,7 @@ def copy_module():
         return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת עם השרתים.")
 
 def ym_read(var_name, text):
-    # החזרה לפורמט המנצח שלך במדויק (עד 12 ספרות כדי למנוע את הניתוק)!
+    # הפורמט המדויק והבדוק שלך!
     res = make_response(f"read={text}={var_name},4,12,1,Digits")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
