@@ -43,7 +43,7 @@ def ym_read(var_name, text):
     # הפורמט הרשמי של ימות המשיח ל-API דינמי:
     # 1 = מינימום ספרות (לסיסמה קצרה), 12 = מקסימום ספרות, 7 = שניות המתנה
     # no = ללא השמעה מיוחדת, yes = להקריא למאזין את ההקשות לאישור, no = חובה להקיש נתון
-    res = make_response(f"read={text}={var_name},1,12,7,no,no,no"))
+    res = make_response(f"read={text}={var_name},1,12,7,no,yes,no"))
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
 
