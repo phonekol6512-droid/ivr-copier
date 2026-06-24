@@ -40,11 +40,12 @@ def copy_module():
         return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת.")
 
 def ym_read(var_name, text):
-    # הפורמט הרשמי והנקי ללא תווים כפולים:
-    # 1=מינימום (לסיסמה קצרה), 12=מקסימום, 7=שניות המתנה, No=ללא השמעה מיוחדת, yes=חובה להקריא לאישור
-    res = make_response(f"read={text}={var_name},1,12,7,No,yes,no")
+    # הפורמט הרשמי שמכבה את נעילת 9 הספרות, מאפשר סיסמה קצרה, ומקריא לאישור:
+    # 1=מינימום, 12=מקסימום, 7=שניות המתנה, he=שפה, yes=הקראה לאישור, yes=מחכה לסולמית
+    res = make_response(f"read={text}={var_name},digits,1,12,7,he,yes,yes")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
+
 
 
 
