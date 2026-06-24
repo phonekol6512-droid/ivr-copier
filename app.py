@@ -16,12 +16,12 @@ def copy_module():
     ext_dst = request.values.get('ext_dst')
 
     # שימוש בפורמט המנצח והמדויק שאתה פיצחת!
-    if not system_src: return ym_read("system_src", "t-אנא הקישו את מספר מערכת המקור ובסיומה סולמית")
-    if not pass_src:   return ym_read("pass_src", "t-אנא הקישו את סיסמת מערכת המקור ובסיומה סולמית")
-    if not ext_src:    return ym_read("ext_src", "t-אנא הקישו את מספר השלוחה להעתקה ובסיומה סולמית")
-    if not system_dst: return ym_read("system_dst", "t-אנא הקישו את מספר מערכת היעד ובסיומה סולמית")
-    if not pass_dst:   return ym_read("pass_dst", "t-אנא הקישו את סיסמת מערכת היעד ובסיומה סולמית")
-    if not ext_dst:    return ym_read("ext_dst", "t-אנא הקישו את שלוחת היעד החדשה ובסיומה סולמית")
+    if not system_src: return ym_read("system_src", "t-אנא הקישו את מספר המערכת שברצונכם להעתיק ממנה את השלוחה, בסיום הקישו סולמית")
+    if not pass_src:   return ym_read("pass_src", "t-אנא הקישו את סיסמת המערכת, בסיום הקישו סולמית")
+    if not ext_src:    return ym_read("ext_src", "t- אנא הקישו את מספר השלוחה אותה תרצו להעתיק, ובסיום הקישו סולמית, לתת תיקייה הקישו כוכבית בין תיקייה לתיקייה")
+    if not system_dst: return ym_read("system_dst", "t-אנא הקישו את מספר המערכת אליה ברצונכם להעתיק את השלוחה, ובסיום הקישו סולמית")
+    if not pass_dst:   return ym_read("pass_dst", "t-אנא הקישו את סיסמת המערכת, בסיום הקישו סולמית")
+    if not ext_dst:    return ym_read("ext_dst", "t-אנא הקישו את השלוחה אליה ברצונכם להעתיק את ההגדרות, בסיום הקישו סולמית, לתת תיקייה הקישו כוכבית בין תיקייה לתיקייה")
 
     try:
         token_src = f"{system_src.strip()}:{pass_src.strip()}"
@@ -49,7 +49,7 @@ def copy_module():
         dst_response = requests.post(upload_url)
 
         if dst_response.status_code == 200 and '"responseStatus":"OK"' in dst_response.text:
-            return ym_say_and_hangup("t-ההעתקה בוצעה בהצלחה. השלוחה הועתקה.")
+            return ym_say_and_hangup("t-ההעתקה בוצעה בהצלחה. פון קול כל מה שצריך במקום אחד.")
         else:
             return ym_say_and_hangup("t-שגיאה בהעלאת הנתונים למערכת היעד.")
 
