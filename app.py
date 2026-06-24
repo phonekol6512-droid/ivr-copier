@@ -38,13 +38,11 @@ def copy_module():
         return ym_say_and_hangup("t-שגיאה בהעלאת הנתונים למערכת היעד.")
     except:
         return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת.")
+
 def ym_read(var_name, text):
-    # הפורמט הרשמי של ימות המשיח:
-    # 1=מינימום, 10=מקסימום, 7=שניות המתנה, he=עברית, yes=סיום בסולמית
-    res = make_response(f"read={text}={var_name},digits,1,10,7,he,yes")
+    res = make_response(f"read={text}=f,{var_name},1,10,7,No,yes,no")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
-
 
 def ym_say_and_hangup(text):
     res = make_response(f"id_list_message={text}")
