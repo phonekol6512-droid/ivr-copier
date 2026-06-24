@@ -40,9 +40,12 @@ def copy_module():
         return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת.")
 
 def ym_read(var_name, text):
-    res = make_response(f"read={text}=f,{var_name},1,10,7,No,yes,no")
+    # הפורמט הרשמי והתקני של ימות המשיח:
+    # 1=מינימום ספרות, 10=מקסימום ספרות, 7=שניות המתנה, Digits=סוג, yes=מחכה לסולמית
+    res = make_response(f"read={text}={var_name},1,10,7,Digits")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
+
 
 def ym_say_and_hangup(text):
     res = make_response(f"id_list_message={text}")
