@@ -40,11 +40,12 @@ def copy_module():
         return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת.")
 
 def ym_read(var_name, text):
-    # הפורמט המלא והתקין שמכריח המתנה לסולמית:
-    # t-טקסט = שם_משתנה, סוג:Digits, מינימום:1, מקסימום:10, המתנה:7 שניות, השמעה:no, סולמית:yes, ריקה:no
-    res = make_response(f"read={text}={var_name},Digits,1,10,7,no,yes,no")
+    # הפורמט הרשמי והנכון ללא הסימן = הכפול!
+    # מבנה: read=הודעה=שם_משתנה,סוג,מינימום,מקסימום,המתנה,סולמית
+    res = make_response(f"read={text}={var_name},Digits,1,10,7,yes")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
+
 
 
 
