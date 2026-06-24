@@ -40,10 +40,12 @@ def copy_module():
         return ym_say_and_hangup("t-התרחשה שגיאה בתקשורת.")
 
 def ym_read(var_name, text):
-    # פורמט ה-f המלא: מקריא טקסט, שומר למשתנה, מינימום 1 ספרה, מקסימום 10 ספרות, ממתין 7 שניות בין הספרות, תומך בסולמית
-    res = make_response(f"read={text}=f,{var_name},1,10,7,No,yes,no")
+    # הפורמט המלא והתקין שמכריח המתנה לסולמית:
+    # t-טקסט = שם_משתנה, סוג:Digits, מינימום:1, מקסימום:10, המתנה:7 שניות, השמעה:no, סולמית:yes, ריקה:no
+    res = make_response(f"read={text}={var_name},Digits,1,10,7,no,yes,no")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
+
 
 
 
