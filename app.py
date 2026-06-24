@@ -48,9 +48,4 @@ def ym_say_and_hangup(text):
     res = make_response(f"id_list_message={text}")
     res.headers['Content-Type'] = 'text/plain; charset=utf-8'
     return res
-str
-    response.headers['Content-Type'] = 'text/plain; charset=utf-8'
-    return response
 
-if __name__ == '__main__':
-    app.run(port=5000)
